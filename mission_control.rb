@@ -12,8 +12,8 @@ class MissionControlCheck
 
 	def check_in(x="in")
 		if File.exist?('./time_of_check_in.csv') == false
-			CSV.open('./time_of_check_in.csv', 'w') do 
-		 		puts @time
+			CSV.open('./time_of_check_in.csv', 'w') do |csv|
+		 		csv << @time
 		 	end
 		 	else
 		 		"You are already checked in"
@@ -34,18 +34,26 @@ class MissionControlCheck
 	def check_out(x="out")
 		if File.exist?('./time_of_check_in.csv') == true
 			display_time(x)
+			elapsed_time
 		else
 			"You are already checked out"
 		end
 	end
 
-
+	def elapsed_time
+		CSV.foreach('./time_of_check_in.csv','r')	do |f|
+			f.to_a
+			puts	"#{(@time[0] - f[0].to_i).abs}: #{(@time[1] - f[1].to_i).abs}"
+		end
+		File.delete('./time_of_check_in.csv')
+	end
 end
 
 
 
 	mc = MissionControlCheck.new
-	mc.x = "in"
+
+
 
 
 

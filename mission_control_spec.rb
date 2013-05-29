@@ -4,7 +4,7 @@ require_relative './mission_control.rb'
 
 describe 'MissionControlCheck' do 
 	let(:check) {MissionControlCheck.new}
-	let(:error)	{"Please only yes or no"}
+
 
 	it 'Checks in with time' do
 		result = check.check_in
@@ -16,10 +16,15 @@ describe 'MissionControlCheck' do
 		expect(result).to include("You are checked in")
 	end
 
-	it 'Check out with time, time elapsed' do
+	it 'Check out with time' do
 		command = check.x 
 		expect(command = "out").to include("out")
 	end
 
+	it 'checks elapsed time' do 
+		result = check.elapsed_time
+		expect(File.exists?('./time_of_check_in.csv')).to be_false
+
+	end
 
 end
